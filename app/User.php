@@ -36,6 +36,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsToMany(Role::class);
     }
 
+    public function medias()
+    {
+        return $this->hasMany('App\Media');
+    }
+
     public function verifyPassword($password)
     {
         return Hash::check($password, $this->password);

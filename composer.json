@@ -8,7 +8,9 @@
         "php": ">=5.6.4",
         "laravel/lumen-framework": "5.3.*",
         "vlucas/phpdotenv": "~2.2",
-        "firebase/php-jwt": "^4.0"
+        "firebase/php-jwt": "^4.0",
+        "intervention/image": "^2.3",
+        "league/fractal": "^0.14.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

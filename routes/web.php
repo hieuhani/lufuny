@@ -12,3 +12,5 @@
 */
 
 $app->post('/auth/sign_in', 'AuthController@signIn');
+$app->get('/categories', 'CategoriesController@index');
+$app->post('/medias', 'MediasController@store');
