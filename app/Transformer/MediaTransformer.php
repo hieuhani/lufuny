@@ -23,11 +23,12 @@ class MediaTransformer extends TransformerAbstract
                 'name' => $media->category->name
             ];
         }
+        $imageFolder = env('IMAGE_FOLDER', 'uploads/images/');
         return [
             'id' => $media->id,
             'description' => $media->description,
             'nickname' => $media->nickname,
-            'media_url' => $media->media_url,
+            'media_url' => $imageFolder . $media->media_url,
             'active' => $media->active,
             'type' => $media->type,
             'author' => $author,

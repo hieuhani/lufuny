@@ -36,6 +36,4 @@ class Media extends Model
     {
         return $this->belongsTo('App\Category');
     }
-
-
 }
