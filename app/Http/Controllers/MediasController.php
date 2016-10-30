@@ -40,7 +40,7 @@ class MediasController extends Controller
                     $fileExt = $isGIF ? '.gif' : '.jpg';
                     $fileName = md5(time());
 
-                    $uploadFolder = env('IMAGE_FOLDER', 'uploads/images/') . date('FY') . '/';
+                    $uploadFolder = env('IMAGE_FOLDER', 'uploads/images/') . date('Ym') . '/';
 
                     while (file_exists($uploadFolder . $fileName . $fileExt)) {
                         $fileName = $fileName . '_' . uniqid();
