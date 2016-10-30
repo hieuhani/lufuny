@@ -10,6 +10,11 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class MediasController extends Controller
 {
+    public function index()
+    {
+        $medias = Media::where('active', true)->paginate(10);
+        return $this->collection($medias, new MediaTransformer());
+    }
 
     public function store(Request $request)
     {
