@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('123456')
         ]);
         $roleAdmin = \App\Role::where('name', 'administrator')->first();
-        $user->roles()->attach($roleAdmin->id);
+        $user->role()->associate($roleAdmin);
+        $user->save();
     }
 }

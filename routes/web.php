@@ -18,3 +18,9 @@ $app->post('/medias', 'MediasController@store');
 $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     $app->get('/users/me', 'UsersController@me');
 });
+
+$app->group(['middleware' => 'auth|moderator', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
+    $app->get('/moderator', 'ModeratorController@mod');
+    $app->get('/moderator/medias/inactive', 'ModeratorController@inActiveMedias');
+    $app->put('/moderator/medias/{id}/toggleActiveMedia', 'ModeratorController@toggleActiveMedia');
+});

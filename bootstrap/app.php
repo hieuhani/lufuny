@@ -61,6 +61,7 @@ $app->singleton(
 
  $app->routeMiddleware([
     'auth' => App\Http\Middleware\ValidateTokenMiddleware::class,
+    'moderator' => App\Http\Middleware\ValidateModeratorMiddleware::class,
  ]);
 
 // $app->routeMiddleware([
