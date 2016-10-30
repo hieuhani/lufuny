@@ -12,12 +12,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-
-
-        App\User::create([
+        $user = App\User::create([
             'email' => '658655@gmail.com',
             'name' => 'Hieu Tran',
             'password' => Hash::make('123456')
         ]);
+        $roleAdmin = \App\Role::where('name', 'administrator')->first();
+        $user->roles()->attach($roleAdmin->id);
     }
 }

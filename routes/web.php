@@ -14,3 +14,7 @@
 $app->post('/auth/sign_in', 'AuthController@signIn');
 $app->get('/categories', 'CategoriesController@index');
 $app->post('/medias', 'MediasController@store');
+
+$app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
+    $app->get('/users/me', 'UsersController@me');
+});

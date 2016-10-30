@@ -57,6 +57,12 @@ class MediasController extends Controller
 
                         $input['media_url'] = $fileName;
                     }
+                } else {
+                    return response()->json([
+                        'status' => 400,
+                        'error' => 'Bad request',
+                        'reason' => 'No image to upload'
+                    ], 400);
                 }
                 break;
             case 2: // Link youtube
