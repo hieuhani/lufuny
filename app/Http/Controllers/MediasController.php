@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Media;
 use App\Transformer\MediaTransformer;
+use App\User;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -88,6 +89,35 @@ class MediasController extends Controller
         }
 
         $media = Media::create($input);
+
+        return $this->item($media, new MediaTransformer());
+    }
+
+    public function toggleVoteMedia($id, Request $request)
+    {
+        $user = $request['user'];
+        if (!($user instanceof User)) {
+            return response()->json([
+                'status' => 403,
+                'error' => 'Forbidden',
+                'reason' => 'Forbidden user'
+            ], 403);
+        }
+
+        $media = Media::find($id);
+        if (is_null($media)) {
+            return response()->json([
+                'status' => 404,
+                'error' => 'Not found',
+                'reason' => 'Media not found'
+            ], 404);
+        }
+
+        if ($user->votedMedias->where('id', $media->id)->first()) {
+            $user->votedMedias()->detach($user->id);
+        } else {
+            $user->votedMedias()->attach($user->id);
+        }
 
         return $this->item($media, new MediaTransformer());
     }

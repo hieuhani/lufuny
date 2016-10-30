@@ -18,6 +18,7 @@ $app->get('/medias', 'MediasController@index');
 
 $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
     $app->get('/users/me', 'UsersController@me');
+    $app->put('/medias/{id}/toggleVoteMedia', 'MediasController@toggleVoteMedia');
 });
 
 $app->group(['middleware' => 'auth|moderator', 'namespace' => 'App\Http\Controllers'], function () use ($app) {

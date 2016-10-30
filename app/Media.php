@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Media extends Model
 {
@@ -35,5 +36,15 @@ class Media extends Model
     public function category()
     {
         return $this->belongsTo('App\Category');
+    }
+
+    public function totalVotes()
+    {
+        return DB::table('media_vote')->where('media_id', '=', $this->id)->count();
+    }
+
+    public function voters()
+    {
+        return $this->belongsToMany('App\User', 'media_vote');
     }
 }

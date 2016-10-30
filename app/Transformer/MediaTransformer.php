@@ -23,6 +23,7 @@ class MediaTransformer extends TransformerAbstract
                 'name' => $media->category->name
             ];
         }
+
         $imageFolder = env('IMAGE_FOLDER', 'uploads/images/');
         return [
             'id' => $media->id,
@@ -32,7 +33,8 @@ class MediaTransformer extends TransformerAbstract
             'active' => $media->active,
             'type' => $media->type,
             'author' => $author,
-            'category' => $category
+            'category' => $category,
+            'total_votes' => $media->totalVotes()
         ];
     }
 }
