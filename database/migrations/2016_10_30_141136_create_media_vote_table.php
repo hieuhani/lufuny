@@ -30,6 +30,6 @@ class CreateMediaVoteTable extends Migration
      */
     public function down()
     {
-        Schema::drop('role_user');
+        Schema::drop('media_vote');
     }
 }
