@@ -14,7 +14,7 @@ class Media extends Model
      * @var array
      */
     protected $fillable = [
-        'nickname', 'description', 'media_url', 'active', 'type', 'category_id'
+        'nickname', 'description', 'thumbnail', 'active', 'category_id'
     ];
 
     /**
@@ -46,5 +46,10 @@ class Media extends Model
     public function voters()
     {
         return $this->belongsToMany('App\User', 'media_vote');
+    }
+
+    public function files()
+    {
+        return $this->hasMany('App\File');
     }
 }

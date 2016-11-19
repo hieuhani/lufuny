@@ -29,7 +29,6 @@ class MediaTransformer extends TransformerAbstract
             'id' => $media->id,
             'description' => $media->description,
             'nickname' => $media->nickname,
-            'media_url' => $imageFolder . $media->media_url,
             'active' => $media->active,
             'type' => $media->type,
             'author' => $author,

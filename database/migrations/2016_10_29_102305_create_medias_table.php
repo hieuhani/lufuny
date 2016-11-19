@@ -15,12 +15,11 @@ class CreateMediasTable extends Migration
     {
         Schema::create('medias', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nickname');
-            $table->string('description', 140);
-            $table->string('media_url');
+            $table->string('nickname')->nullable();
+            $table->string('description', 140)->nullable();
+            $table->string('thumbnail')->nullable();
             $table->boolean('active');
-            $table->ipAddress('visitor');
-            $table->tinyInteger('type');
+            $table->ipAddress('visitor')->nullable();
 
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -29,6 +28,7 @@ class CreateMediasTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
             $table->index('user_id');
+            $table->index('category_id');
 
             $table->timestamps();
         });

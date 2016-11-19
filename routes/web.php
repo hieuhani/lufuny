@@ -14,6 +14,7 @@
 $app->post('/auth/sign_in', 'AuthController@signIn');
 $app->get('/categories', 'CategoriesController@index');
 $app->post('/medias', 'MediasController@store');
+$app->post('/medias/{id:[0-9]+}/files', 'MediasController@addFile');
 $app->get('/medias', 'MediasController@index');
 
 $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'], function () use ($app) {
