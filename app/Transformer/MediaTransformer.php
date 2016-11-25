@@ -7,6 +7,11 @@ use League\Fractal\TransformerAbstract;
 
 class MediaTransformer extends TransformerAbstract
 {
+
+    protected $availableIncludes = [
+      'files'
+    ];
+
     public function transform(Media $media)
     {
         $author = null;
@@ -24,7 +29,6 @@ class MediaTransformer extends TransformerAbstract
             ];
         }
 
-        $imageFolder = env('IMAGE_FOLDER', 'uploads/images/');
         return [
             'id' => $media->id,
             'description' => $media->description,
@@ -33,7 +37,13 @@ class MediaTransformer extends TransformerAbstract
             'type' => $media->type,
             'author' => $author,
             'category' => $category,
-            'total_votes' => $media->totalVotes()
+            'total_votes' => $media->totalVotes(),
         ];
+    }
+
+    public function includeFiles(Media $media)
+    {
+        var_dump($media->files);
+        return $this->collection($media->files, new FileTransformer());
     }
 }
