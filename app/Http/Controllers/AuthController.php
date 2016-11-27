@@ -49,7 +49,8 @@ class AuthController extends Controller
         $ttl = 2 * 30 * 24 * 60 * 60; // 2 months
         $secret_key = env('TOKEN_SECRET');
         $payload = array(
-            'id' => $user->id
+            'id' => $user->id,
+            'exp' => time() + $ttl
         );
         $jwt = JWT::encode($payload, $secret_key);
 
