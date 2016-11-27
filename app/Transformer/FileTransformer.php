@@ -12,6 +12,7 @@ class FileTransformer extends TransformerAbstract
         return [
             'id' => $file->id,
             'identifier' => $file->identifier,
+            'type' => $file->type
         ];
     }
 }

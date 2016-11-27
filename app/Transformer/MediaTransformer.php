@@ -9,7 +9,18 @@ use League\Fractal\TransformerAbstract;
 class MediaTransformer extends TransformerAbstract
 {
 
+    private $includedToken = false;
+
+    public function __construct($includedToken = false)
+    {
+        $this->includedToken = $includedToken;
+    }
+
     protected $availableIncludes = [
+      'files'
+    ];
+
+    protected $defaultIncludes = [
       'files'
     ];
 
@@ -22,30 +33,30 @@ class MediaTransformer extends TransformerAbstract
                 'name' => $media->user()->name
             ];
         }
-        $category = null;
+        $categoryID = null;
         if ($media->category !== null) {
-            $category = [
-                'id' => $media->category->id,
-                'name' => $media->category->name
-            ];
+            $categoryID = $media->category->id;
         }
 
-        return [
+        $responseMessage = [
             'id' => $media->id,
             'description' => $media->description,
             'nickname' => $media->nickname,
             'active' => $media->active,
-            'type' => $media->type,
             'author' => $author,
-            'category' => $category,
+            'category_id' => $categoryID,
             'total_votes' => $media->totalVotes(),
-            'media_token' => $this->generateMediaToken($media)
         ];
+
+        if ($this->includedToken) {
+            $responseMessage['media_token'] = $this->generateMediaToken($media);
+        }
+
+        return $responseMessage;
     }
 
     public function includeFiles(Media $media)
     {
-        var_dump($media->files);
         return $this->collection($media->files, new FileTransformer());
     }
 

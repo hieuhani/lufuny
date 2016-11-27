@@ -54,7 +54,7 @@ class MediasController extends Controller
 
         $media = Media::create($input);
 
-        return $this->item($media, new MediaTransformer());
+        return $this->item($media, new MediaTransformer(true));
     }
 
     /**

@@ -36,15 +36,16 @@ $app->get('/categories', 'CategoriesController@index');
 $app->post('/medias', 'MediasController@store');
 
 /**
- * @api {post} /medias/:id/files Create a media
+ * @api {post} /medias/:id/files Add file to media
  * @apiName AddFileToMedia
  * @apiGroup Media
  *
  * @apiParam {String}   [photo]     Image file (jpeg,bmp,png,gif allowed)
  * @apiParam {Integer}  type        1: Normal photo, 2: YouTube video
  * @apiParam {String}   [video_url] YouTube video url
+ * @apiParam {String}   media_token Media token that got from creating a media
  *
- * @apiSuccess {String} data Media information
+ * @apiSuccess {Object} data Media information
  */
 $app->post('/medias/{id:[0-9]+}/files', 'MediasController@addFile');
 
