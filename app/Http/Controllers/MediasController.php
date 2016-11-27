@@ -8,6 +8,8 @@ use App\Media;
 use App\Transformer\FileTransformer;
 use App\Transformer\MediaTransformer;
 use App\User;
+use Firebase\JWT\JWT;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -48,6 +50,8 @@ class MediasController extends Controller
             }
         }
 
+        $input['visitor'] = $request->ip();
+
         $media = Media::create($input);
 
         return $this->item($media, new MediaTransformer());
@@ -64,9 +68,31 @@ class MediasController extends Controller
             'photo' => 'mimes:jpeg,bmp,png,gif|dimensions:min_width=200,min_height=200',
             'type' => 'required|integer',
             'video_url' => 'max:255',
+            'media_token' => 'required'
         ]);
 
         $media = Media::find($id);
+
+        // Validate media visitor who requests to add file to his/her media
+        $secret_key = env('TOKEN_SECRET');
+        try {
+            $decoded = (array) JWT::decode($request['media_token'], $secret_key, array('HS256'));
+            $mediaID = $decoded['id'];
+            if ($mediaID != $id) {
+                throw new AuthorizationException('Invalid media token');
+            }
+
+            $visitor = $decoded['visitor'];
+            if ($visitor != $media->visitor) {
+                throw new AuthorizationException('Invalid request IP');
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 400,
+                'error' => 'Bad request',
+                'reason' => $e->getMessage()
+            ], 400);
+        }
 
         if (is_null($media)) {
             return response()->json([

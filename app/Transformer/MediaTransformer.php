@@ -3,6 +3,7 @@
 namespace App\Transformer;
 
 use App\Media;
+use Firebase\JWT\JWT;
 use League\Fractal\TransformerAbstract;
 
 class MediaTransformer extends TransformerAbstract
@@ -38,6 +39,7 @@ class MediaTransformer extends TransformerAbstract
             'author' => $author,
             'category' => $category,
             'total_votes' => $media->totalVotes(),
+            'media_token' => $this->generateMediaToken($media)
         ];
     }
 
@@ -45,5 +47,22 @@ class MediaTransformer extends TransformerAbstract
     {
         var_dump($media->files);
         return $this->collection($media->files, new FileTransformer());
+    }
+
+    private function generateMediaToken($media) {
+        $ttl = 30 * 60; // 30 minutes
+        $secret_key = env('TOKEN_SECRET');
+        $payload = array(
+            'id' => $media->id,
+            'visitor' => $media->visitor,
+            'exp' => time() + $ttl
+        );
+
+        $jwt = JWT::encode($payload, $secret_key);
+
+        return [
+            'token' => $jwt,
+            'ttl' => $ttl
+        ];
     }
 }
